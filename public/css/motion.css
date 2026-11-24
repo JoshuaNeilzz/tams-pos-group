@@ -1,0 +1,103 @@
+/* Progressive page transitions preserve native navigation and form submissions. */
+@view-transition { navigation: auto; }
+
+:root {
+    --motion-quick: 150ms;
+    --motion-normal: 240ms;
+    --motion-ease: cubic-bezier(.2, .7, .3, 1);
+    scroll-behavior: smooth;
+    scroll-padding-top: 28px;
+}
+
+.container { view-transition-name: page-content; }
+::view-transition-old(page-content) { animation: content-out 110ms ease-in both; }
+::view-transition-new(page-content) { animation: content-in 240ms var(--motion-ease) both; }
+::view-transition-group(page-content) {
+    animation-duration: 240ms;
+    animation-timing-function: var(--motion-ease);
+}
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+
+@keyframes content-out { to { opacity: 0; } }
+@keyframes content-in {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@supports not (view-transition-name: page-content) {
+    .container { animation: content-in 240ms var(--motion-ease) both; }
+}
+
+body, .site-header, footer, .container, .brand-word, .brand-word small,
+.panel, .stat, .table-card, .form-card, .auth-form, .sale-summary,
+.notice, .initial-avatar, .detail-tags li, .product-image, th, td {
+    transition: background-color var(--motion-normal) ease,
+        color var(--motion-normal) ease, border-color var(--motion-normal) ease;
+}
+
+.button, .form-button, .approve-button, .text-button, .theme-button,
+.product-card, .access-row, .stock-row {
+    transition: transform var(--motion-quick) var(--motion-ease),
+        opacity var(--motion-quick) ease, background-color var(--motion-normal) ease,
+        color var(--motion-normal) ease, border-color var(--motion-normal) ease,
+        box-shadow var(--motion-normal) ease;
+}
+.button:active, .form-button:active, .approve-button:active, .theme-button:active {
+    transform: scale(.97);
+}
+
+.theme-button svg { animation: icon-in 200ms var(--motion-ease); }
+@keyframes icon-in {
+    from { opacity: 0; transform: rotate(-25deg) scale(.85); }
+    to { opacity: 1; transform: rotate(0) scale(1); }
+}
+
+.site-header nav a, .site-header nav a.active {
+    position: relative;
+    border-bottom-color: transparent;
+    transition: color var(--motion-quick) ease;
+}
+.site-header nav a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--fg);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms var(--motion-ease), background-color var(--motion-normal) ease;
+}
+.site-header nav a:hover, .site-header nav a:focus-visible { text-decoration: none; }
+.site-header nav a:hover::after, .site-header nav a:focus-visible::after,
+.site-header nav a.active::after { transform: scaleX(1); }
+
+.product-image img { transition: transform 320ms var(--motion-ease); }
+input:not([type=checkbox]), select {
+    transition: background-color var(--motion-normal) ease, color var(--motion-normal) ease,
+        border-color var(--motion-quick) ease, box-shadow var(--motion-quick) ease;
+}
+.text-link, .plain-link, .row-actions a {
+    transition: color var(--motion-quick) ease, opacity var(--motion-quick) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+    .button:hover, .form-button:hover { transform: translateY(-2px); }
+    .button:active, .form-button:active { transform: translateY(0) scale(.97); }
+    .product-card:hover .product-image img { transform: scale(1.035); }
+    .stock-row:hover { background-color: var(--soft); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition { navigation: none; }
+    :root { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
+        animation: none !important;
+    }
+    .button:hover, .button:active, .form-button:hover, .form-button:active,
+    .approve-button:active, .theme-button:active, .product-card:hover,
+    .product-card:hover .product-image img, .access-row:hover { transform: none; }
+}
