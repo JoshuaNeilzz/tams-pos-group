@@ -152,6 +152,8 @@ Tests use an isolated SQLite database and cover user/staff registration, role-fo
 
 ## GitHub and deployment
 
+For the Vercel container configuration and hosted persistence setup, see [deploy/README.md](deploy/README.md). The hosting setup uses a separate cloud database; local XAMPP credentials and data are not published.
+
 Commit application code, public CSS, migrations, seeders, tests, `composer.json`, `composer.lock`, `.env.example`, and this README. Exclude `.env`, vendor, node_modules, runtime caches, backups, and real uploaded personal files. Generic optional demo credentials are intentionally documented for local evaluation.
 
 Use a PHP host with MySQL/MariaDB, Composer, HTTPS, and GD/WebP support. The web document root must point to `public`; `storage` and `bootstrap/cache` need write access. Run `composer install --no-dev --optimize-autoloader`, configure `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, `APP_KEY`, database access, and secure cookies, then run migrations, the primary initial-account seeder, `php artisan config:cache`, and `php artisan view:cache`. Do not run DemoSeeder on a public production deployment.

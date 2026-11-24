@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UploadedImage;
 use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
@@ -10,6 +11,13 @@ class MediaController extends Controller
     {
         abort_unless(in_array($folder, ['avatars', 'products'], true) && preg_match('/\A[a-zA-Z0-9_-]+\.(webp|png|jpg|jpeg)\z/', $file), 404);
         $path = $folder.'/'.$file;
+        if (config('media.driver') === 'database') {
+            $image = UploadedImage::findOrFail($path);
+            $bytes = base64_decode($image->content, true);
+            abort_if($bytes === false, 404);
+
+            return response($bytes, 200, ['Content-Type' => $image->mime_type, 'X-Content-Type-Options' => 'nosniff', 'Cache-Control' => 'private, max-age=86400']);
+        }
         if (Storage::disk('public')->exists($path)) {
             return response()->file(Storage::disk('public')->path($path), ['X-Content-Type-Options' => 'nosniff']);
         }

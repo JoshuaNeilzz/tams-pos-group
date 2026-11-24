@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Services\DisplayImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -59,7 +58,7 @@ class ProductController extends Controller
         }
         $product->update($data);
         if (isset($data['image']) && $old) {
-            Storage::disk('public')->delete($old);
+            $images->delete($old);
         }
 
         return to_route('products.index')->with('success', 'Product updated.');

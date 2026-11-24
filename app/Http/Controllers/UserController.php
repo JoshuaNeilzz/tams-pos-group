@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\DisplayImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -53,7 +52,7 @@ class UserController extends Controller
         }
         $user->fill($data)->save();
         if (isset($data['avatar']) && $old) {
-            Storage::disk('public')->delete($old);
+            $images->delete($old);
         }
     }
 
