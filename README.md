@@ -158,7 +158,7 @@ Use a PHP host with MySQL/MariaDB, Composer, HTTPS, and GD/WebP support. The web
 
 For XAMPP development, `http://localhost/final-pos/public/` reaches this project's entry point. A virtual host pointing to `public` is preferable to exposing the repository root.
 
-Submit the repository URL and hosted application URL required by the assignment after publishing to the group's chosen accounts. No repository URL or live deployment is claimed by this local project.
+Group repository: https://github.com/JoshuaNeilzz/tams-pos-group. See [CONTRIBUTING.md](CONTRIBUTING.md) for joining the repository, creating branches, submitting pull requests, and keeping local databases in sync through migrations. A live PHP/MySQL deployment is separate; submit its URL alongside the repository URL when hosting is complete.
 
 ## Visual assets
 
