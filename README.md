@@ -12,14 +12,14 @@ The checked-in repository documentation previously described a generic inventory
 
 ## Which account should I use?
 
-**Hosted setup status: pending database provisioning/verification for this revision.** The old live site did not contain the local demo accounts, which is why the credentials failed there. Do not assume a locally seeded account also exists on Vercel. The snack-order revision must be migrated and deployed before its buying/restocking features are live.
+**Hosted access verified on November 26, 2026.** Both accounts below were provisioned in the hosted database and tested on the live site. Buying/reserving, restocking, cancellation, pickup completion, counter sales, and purchase history in a fresh browser session were verified. The earlier live site did not contain the local demo accounts; that mismatch is now fixed.
 
 | Account | Sign-in page | Username | Password | Purpose |
 | --- | --- | --- | --- | --- |
 | Evaluation staff | [Staff sign in](https://tams-pos-group.vercel.app/staff/login) | `demo_staff` | `DemoStaff123!` | Add snacks and stock, record counter sales, complete pickup orders, manage customers/staff |
 | Evaluation shopper | [User sign in](https://tams-pos-group.vercel.app/login) | `demo_user` | `DemoUser123!` | Buy/reserve snacks, cancel own pending orders, view own completed purchases |
 
-These are **shared classroom evaluation credentials**, created only by the explicit setup command below. They work locally after setup. They must be separately provisioned and verified in the hosted database before use on the live site. Use fictional data only. Shared staff access can modify the evaluation store; it must never be enabled on a store holding real customer information or real business data.
+These are **shared classroom evaluation credentials**. Both work on the hosted site linked above and on a local copy after the explicit setup below. Use fictional data only. Shared staff access can modify the evaluation store; it must never be enabled on a store holding real customer information or real business data.
 
 You can also [register your own shopper account](https://tams-pos-group.vercel.app/register). A [new staff registration](https://tams-pos-group.vercel.app/staff/register) needs approval by an existing active staff member; it does not immediately grant stock-management access.
 
@@ -138,6 +138,6 @@ The original cache/job and legacy `login_accounts` tables remain for compatibili
 php artisan test
 ```
 
-Coverage includes account separation/approval, customer and staff CRUD, prepared images and hosted media, server-priced counter sales, stock limits, checkout retries, reservation/cancellation/completion, order ownership, restock receipts, stale edit protection, and guarded evaluation setup. Before submitting the hosted URL, also perform the real-browser scenario described above against the hosted database; passing local tests alone does not provision live accounts.
+The regression suite passes **36 tests (339 assertions)**. Coverage includes account separation/approval, customer and staff CRUD, prepared images and hosted media, server-priced counter sales, stock limits, checkout retries, reservation/cancellation/completion, order ownership, restock receipts, stale edit protection, and guarded evaluation setup. Before submitting the hosted URL, also perform the real-browser scenario described above against the hosted database; passing local tests alone does not provision live accounts.
 
 The project retains Laravel rather than the assignment's named CodeIgniter framework, based on the owner's earlier confirmation that Laravel is permitted. The repository follows Laravel MVC conventions. Group collaboration instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).
