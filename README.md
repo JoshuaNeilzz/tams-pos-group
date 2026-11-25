@@ -8,7 +8,9 @@
 
 TAMS POS is an IT0049 Web System Technologies classroom project: a **sari-sari store selling Philippine packaged snacks**, built with Laravel 12, Blade, PHP, and a relational database. Nova, Piattos, V-Cut, Chippy, Oishi, and Boy Bawang are the illustrative sample lineup. Staff can add other foods/snacks. All sample prices are classroom values, not advertised manufacturer prices. Product names belong to their respective brands; the packet sketches are original SVG illustrations, not official product photos or packaging.
 
-The checked-in repository documentation previously described a generic inventory system and imposed no product-category restriction. The original assignment brief is not included here, so category restrictions in that external document cannot be independently confirmed from this repository.
+The original midterm brief was reviewed locally on November 26, 2026. It specifies generic product records and does not restrict the merchandise category. The sari-sari snack scope preserves the required relationships. The owner reconfirmed that Laravel is approved for this midterm. See [the submission verification checklist](SUBMISSION_CHECKLIST.md) for the requirement-by-requirement audit.
+
+**Submission links:** send this GitHub repository and the live website above. The [submission checklist](SUBMISSION_CHECKLIST.md) records the completed checks against the original brief.
 
 ## Which account should I use?
 
