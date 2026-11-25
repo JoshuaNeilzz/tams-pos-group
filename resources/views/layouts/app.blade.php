@@ -6,7 +6,7 @@
     <title>{{ $title ?? 'Home' }} | TAMS POS</title>
     <script>try { document.documentElement.dataset.theme = localStorage.getItem('tams-theme') || 'light'; } catch (e) {}</script>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=7">
-    <link rel="stylesheet" href="{{ asset('css/design.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/design.css') }}?v=5">
     <link rel="stylesheet" href="{{ asset('css/motion.css') }}?v=1">
 </head>
 <body>
