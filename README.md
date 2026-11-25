@@ -23,6 +23,41 @@ These are **shared classroom evaluation credentials**. Both work on the hosted s
 
 You can also [register your own shopper account](https://tams-pos-group.vercel.app/register). A [new staff registration](https://tams-pos-group.vercel.app/staff/register) needs approval by an existing active staff member; it does not immediately grant stock-management access.
 
+## Sign in to the live website (start here)
+
+No Vercel account, GitHub account, XAMPP, terminal, or installation is required to use the hosted store. Open the correct sign-in link below in Chrome, Edge, or another browser.
+
+### Staff: add snacks, receive stock, and record sales
+
+1. Open **https://tams-pos-group.vercel.app/staff/login**.
+2. In **Username or email**, enter **`demo_staff`**.
+3. In **Password**, enter **`DemoStaff123!`** (capital D and S, with `!` at the end).
+4. Click **Sign in**. You should land on **Dashboard**.
+5. The header navigation should include **Dashboard**, **Snacks & stock**, **Customers**, **Staff**, **Sales**, and **Orders**. This account is already approved; no registration is needed to evaluate it.
+
+Staff can add snacks, add stock to existing snacks, edit prices/counts, archive products, manage customer records, add or approve staff accounts, record walk-in sales, and complete or cancel pickup orders.
+
+### User / shopper: buy or reserve snacks
+
+1. Open **https://tams-pos-group.vercel.app/login**.
+2. In **Username or email**, enter **`demo_user`**.
+3. In **Password**, enter **`DemoUser123!`** (capital D and U, with `!` at the end).
+4. Click **Sign in**. You should land on **My account**, headed **Tara, merienda!**.
+5. Click **Buy snacks** or scroll to **Product catalog**. Choose the number of packs and select **Buy / reserve**. Track pending orders in **My pickup orders** and completed sales in **Purchase history**.
+
+A shopper can buy/reserve snacks and manage their own pending orders. A shopper cannot add products, restock shelves, approve staff, or access other customers' records. Use the staff account for those actions.
+
+### Switching between staff and shopper
+
+Select **Sign out** before opening the other sign-in page. The staff and user forms require their matching account type. To demonstrate both roles at once, use two separate browser profiles or use a normal window for staff and an Incognito/InPrivate window for the shopper. Two ordinary tabs in the same browser profile share the same login session.
+
+### Creating your own accounts
+
+- **Own shopper account:** open [Create user account](https://tams-pos-group.vercel.app/register), enter your name, a unique username and email, and a confirmed password of at least 8 characters. Registration signs you in as a shopper and creates a linked customer record.
+- **Own staff account:** open [Create staff account](https://tams-pos-group.vercel.app/staff/register) and submit the form. It creates a **pending** request. An approved staff member must sign in, open **Staff**, find the request, and select **Approve**. Then sign in through **Staff sign in** using the username and password entered during registration.
+- **Staff added by approved staff:** sign in as `demo_staff`, open **Staff**, and use its add-staff form. Accounts created inside that approved-staff module are active immediately.
+
+These shared demo accounts are for the group's fictional evaluation store. Avoid changing their usernames/passwords or archiving sample products during a presentation without telling the other groupmates; changes affect the same hosted database for everyone. For a separate personal login, register your own account instead.
 ## Buy snacks (shopper)
 
 1. Sign in through **User sign in**, then open **My account**.
@@ -45,6 +80,48 @@ The account catalog is no longer view-only. A shopper cannot restock, manage sta
 
 All stock figures mean **available packs**, excluding pending pickup reservations. Completed sales, historical names, and receipts survive later product archiving. Stock and totals are validated server-side. Overselling, negative quantities, excessive totals, and repeat checkout submissions are rejected or safely reused without double deduction.
 
+### Worked example: add a new snack
+
+1. Sign in as **`demo_staff`** using **Staff sign in**.
+2. Open **Snacks & stock**, then select **+ Add snack** (or open [the add-snack form](https://tams-pos-group.vercel.app/products/create) after signing in).
+3. Enter the following classroom sample values:
+
+   | Field | Example value |
+   | --- | --- |
+   | Snack name | `Banana Chips` |
+   | Price (PHP) | `8.00` |
+   | Available packs | `10` |
+   | Product photo | Optional; leave empty to use the generic packet sketch |
+
+4. Click **Add to catalog**. A success message appears, and the new snack should show **10 packs available** in the staff inventory.
+5. Sign in as a shopper in a separate browser session. The new snack appears in **Product catalog** with its price and a **Buy / reserve** button. No code change or redeployment is needed to add a snack or receive stock; records are stored in the hosted database.
+
+### Worked example: add stock to an existing snack
+
+1. In **Snacks & stock**, find the snack. Use Search if needed.
+2. On that snack's card, expand **+ Add stock**.
+3. Enter **`5`** in **New packs received**. An optional delivery note can identify the supplier delivery.
+4. Click **Add to current stock**.
+5. If the snack had **10 packs available**, it now has **15 packs available**. Enter only the delivered packs (`5`), not the desired final balance (`15`).
+
+If stock is zero, staff can still expand **+ Add stock** to replenish it. The shopper's purchase button reappears once available stock is positive. For an intentional stock-count correction, use **Edit > Available packs** instead; Edit sets the available count, whereas Add stock increments it. Packs already reserved for pending orders are tracked separately and must not be counted as available.
+
+### If sign-in or adding does not work
+
+| What you see | What to do |
+| --- | --- |
+| Credentials do not match | Use the exact matching form and password above. `demo_staff` belongs on Staff sign in; `demo_user` belongs on User sign in. Passwords are case-sensitive. Remove pasted spaces. |
+| Too many login attempts | Wait for the time shown in the message, then retry with the correct form. |
+| You see My account instead of staff navigation | You are signed in as a shopper or pending staff. Sign out and use the approved staff account through Staff sign in. |
+| Staff approval pending | Ask an approved staff member to open Staff and approve your request; registration does not auto-approve staff. |
+| No Add snack / Add stock controls | Those controls are under **Snacks & stock** for approved staff, not in the shopper catalog. |
+| A field is rejected | Use a nonempty name, positive price with no more than two decimal places, and whole-number stock. Restock quantities must be at least 1. Follow the validation message. |
+| Stock changed while this form was open | Reload the edit page and review the latest count before saving. A sale, pickup order, or delivery changed it. |
+| Sold out / insufficient stock | Staff must restock, or the shopper must choose fewer packs. Pending orders already reserve their packs. |
+| You still see an old page | Open the live URL above and press Ctrl+F5. The GitHub page contains source/documentation; it is not the running app. |
+| A shared demo password was changed | Ask the maintainer to repair the two named accounts using the explicit setup procedure below. Running a local seeder only changes the local database, not Vercel's database. |
+
+**Live verification on November 26, 2026:** both demo accounts signed in successfully; a temporary snack was added with 10 packs, restocked by 5, and shown to the shopper with 15 packs and a Buy / reserve button. The temporary snack was then archived. Earlier live checks also covered reservation, cancellation, pickup completion, counter sales, and data persistence after a redeploy.
 ## Sample snack catalog
 
 | Snack | Sample price / pack | Starting packs |
