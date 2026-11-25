@@ -6,7 +6,7 @@
     <title>{{ $title ?? 'Home' }} | TAMS POS</title>
     <script>try { document.documentElement.dataset.theme = localStorage.getItem('tams-theme') || 'light'; } catch (e) {}</script>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=7">
-    <link rel="stylesheet" href="{{ asset('css/design.css') }}?v=1">
+    <link rel="stylesheet" href="{{ asset('css/design.css') }}?v=2">
     <link rel="stylesheet" href="{{ asset('css/motion.css') }}?v=1">
 </head>
 <body>
@@ -50,7 +50,7 @@
     @endif
     @yield('content')
 </main>
-<footer class="site-footer"><a class="footer-wordmark" href="{{ route('home') }}">tams<span>.</span></a><div class="footer-description">A little order.<br>A lot of possibility.</div><div class="footer-links"><a href="{{ route('about') }}">How it works &nearr;</a><a href="{{ route('staff.login') }}">Staff access &nearr;</a></div><small>&copy; {{ date('Y') }} TAMS POS<br>IT0049 &middot; Group Project</small></footer>
+<footer class="site-footer"><a class="footer-wordmark" href="{{ route('home') }}">tams<span>.</span></a><div class="footer-description">A little order.<br>A lot of possibility.</div><div class="footer-links"><a href="{{ route('about') }}">How it works &nearr;</a><a href="{{ route('staff.login') }}">Staff access &nearr;</a></div><small>&copy; {{ date('Y') }} TAMS POS<br>IT0049 &middot; <a href="{{ route('about') }}#team">CipherStack</a></small></footer>
 <script>
     document.getElementById('theme-toggle').addEventListener('click', () => {
         const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';

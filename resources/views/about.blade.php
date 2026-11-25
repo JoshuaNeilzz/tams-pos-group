@@ -7,4 +7,17 @@
 <section><p class="eyebrow">03 / READY FOR THE NEXT SALE</p><h2>You sell. We keep count.</h2><p>Open Sales, choose Record sale, select a product, add an optional customer, and enter the quantity. The system calculates the total and updates your stock together.</p><p>If there isn't enough stock, you'll see a message before the sale goes through. Walk-in customers are welcome, too.</p></section>
 <section><p class="eyebrow">04 / THE FULL PICTURE</p><h2>Look back. Move forward.</h2><p>Staff can review all recorded transactions in Sales history. Users see only purchases linked to their own customer record in My account.</p><p>Sale records preserve the product, customer, and staff names from the time of purchase, even when those details change later.</p></section>
 </div>
+<section class="team-section" id="team" aria-labelledby="team-title">
+    <div class="team-intro">
+        <p class="eyebrow"><span class="tiny-square"></span> THE PEOPLE BEHIND TAMS POS</p>
+        <h2 id="team-title">Meet CipherStack.</h2>
+        <p>Four minds. One shared project. Built together for IT0049 Web System Technologies.</p>
+    </div>
+    <ul class="team-members" aria-label="CipherStack team members">
+        <li><span aria-hidden="true">01</span>Joshua Neil Biglete</li>
+        <li><span aria-hidden="true">02</span>Leah Buenaventura</li>
+        <li><span aria-hidden="true">03</span>Gabrielle Crisostomo</li>
+        <li><span aria-hidden="true">04</span>Kurt Airry Wenceslao</li>
+    </ul>
+</section>
 @endsection

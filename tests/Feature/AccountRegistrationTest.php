@@ -23,7 +23,7 @@ class AccountRegistrationTest extends TestCase
 
     public function test_both_account_types_have_visible_registration_and_login_links(): void
     {
-        $this->get('/')->assertOk()->assertSee('Create user account')->assertSee('Create staff account')->assertSee('Group Project')->assertDontSee('beautifully connected')->assertDontSee('A considered catalog');
+        $this->get('/')->assertOk()->assertSee('Create user account')->assertSee('Create staff account')->assertSee('CipherStack')->assertDontSee('beautifully connected')->assertDontSee('A considered catalog');
         $this->get('/login')->assertOk()->assertSee('User sign in')->assertSee('Create user account');
         $this->get('/staff/login')->assertOk()->assertSee('Staff sign in')->assertSee('Create staff account');
         $this->get('/register')->assertOk()->assertSee('User registration');
