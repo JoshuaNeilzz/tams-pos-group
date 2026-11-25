@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Home' }} | TAMS POS</title>
     <script>try { document.documentElement.dataset.theme = localStorage.getItem('tams-theme') || 'light'; } catch (e) {}</script>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=6">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=7">
+    <link rel="stylesheet" href="{{ asset('css/design.css') }}?v=1">
     <link rel="stylesheet" href="{{ asset('css/motion.css') }}?v=1">
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header">
     <a class="brand" href="{{ route('home') }}"><svg class="brand-symbol" viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="10" fill="currentColor"/><path d="M11 14h18M20 14v15M12 23h5m6 0h5" stroke="var(--bg)" stroke-width="3" stroke-linecap="square"/></svg><span class="brand-word">TAMS<small>POINT OF SALE</small></span></a>
     <nav aria-label="Main navigation">
@@ -41,14 +43,14 @@
         @endauth
     </div>
 </header>
-<main class="container">
+<main class="container" id="main-content">
     @if(session('success'))<div class="notice success" role="status">{{ session('success') }}</div>@endif
     @if($errors->any())
         <div class="notice error" role="alert"><strong>Please check your entries.</strong><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
     @endif
     @yield('content')
 </main>
-<footer><strong>TAMS POS</strong><span>IT0049 · Group Project</span><a href="{{ route('about') }}">System guide</a><small>&copy; {{ date('Y') }}</small></footer>
+<footer class="site-footer"><a class="footer-wordmark" href="{{ route('home') }}">tams<span>.</span></a><div class="footer-description">A little order.<br>A lot of possibility.</div><div class="footer-links"><a href="{{ route('about') }}">How it works &nearr;</a><a href="{{ route('staff.login') }}">Staff access &nearr;</a></div><small>&copy; {{ date('Y') }} TAMS POS<br>IT0049 &middot; Group Project</small></footer>
 <script>
     document.getElementById('theme-toggle').addEventListener('click', () => {
         const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';

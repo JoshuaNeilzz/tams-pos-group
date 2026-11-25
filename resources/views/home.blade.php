@@ -1,42 +1,23 @@
 @extends('layouts.app')
 @section('content')
-<section class="home-intro">
-    <div class="home-intro-copy">
-    <p class="eyebrow">IT0049 / WEB SYSTEM TECHNOLOGIES</p>
-    <h1>Point-of-sale &amp;<br><span class="heading-accent">inventory</span><br>system.</h1>
-    <p class="intro-description">Manage store inventory, customer records, and sales transactions. Choose an account type below to get started.</p>
-    @auth
-        <a class="button" href="{{ auth()->user()->isActiveStaff() ? route('dashboard') : route('account') }}">Open {{ auth()->user()->isActiveStaff() ? 'dashboard' : 'my account' }} <span>↗</span></a>
-    @else
-        <div class="intro-actions"><a class="button accent-button" href="{{ route('register') }}">Create an account <span>↗</span></a><a class="text-link" href="#access-title">Choose your account type</a></div>
-    @endauth
-    <div class="intro-caption"><span></span> Products / People / Transactions</div>
-    </div>
-    <figure class="checkout-visual">
-        <img src="{{ asset('images/checkout-hero.png') }}" alt="A stationery store checkout with a payment terminal, shopping bag, notebooks, and pens" width="1024" height="768" fetchpriority="high">
-        <figcaption><span class="visual-mark">T.</span><div><strong>TAMS POS</strong><small>Store management &amp; sales</small></div><span class="visual-arrow" aria-hidden="true">↗</span></figcaption>
-    </figure>
-</section>
-<section class="access-section" aria-labelledby="access-title">
-    <div class="section-heading"><h2 id="access-title">Account access</h2><span class="mono muted">01 / GET STARTED</span></div>
-    <div class="access-row">
-        <span class="row-number">01</span>
-        <div><h3>User account</h3><p>View available products and your own recorded purchases. User accounts cannot access store management.</p></div>
-        <div class="access-links"><a class="button secondary" href="{{ route('login') }}">User sign in</a><a class="text-link" href="{{ route('register') }}">Create user account ↗</a></div>
-    </div>
-    <div class="access-row">
-        <span class="row-number">02</span>
-        <div><h3>Staff account</h3><p>Manage products, customers, and staff. Record sales and review transaction history. New registrations require staff approval.</p></div>
-        <div class="access-links"><a class="button secondary" href="{{ route('staff.login') }}">Staff sign in</a><a class="text-link" href="{{ route('staff.register') }}">Create staff account ↗</a></div>
-    </div>
-</section>
-<section class="system-section">
-    <div class="section-heading"><h2>System modules</h2><a class="text-link" href="{{ route('about') }}">Read the system guide ↗</a></div>
-    <div class="module-list">
-        <div><span>01 / INVENTORY</span><h3>Product management</h3><p>Maintain product records and the quantities available for sale.</p><ul class="detail-tags" aria-label="Product features"><li>Product images</li><li>Pricing</li><li>Stock levels</li><li>Archiving</li></ul></div>
-        <div><span>02 / RECORDS</span><h3>Customer management</h3><p>Keep contact records and connect registered users to their purchases.</p><ul class="detail-tags" aria-label="Customer features"><li>Contact details</li><li>User accounts</li><li>Purchase history</li></ul></div>
-        <div><span>03 / ACCESS</span><h3>Staff management</h3><p>Manage staff profiles and approve new staff registrations.</p><ul class="detail-tags" aria-label="Staff features"><li>Staff profiles</li><li>Avatars</li><li>Approval</li></ul></div>
-        <div><span>04 / TRANSACTIONS</span><h3>Sales recording</h3><p>Record a sale with stock validation and automatic inventory deductions.</p><ul class="detail-tags" aria-label="Sales features"><li>Quantity validation</li><li>Sale totals</li><li>Transaction history</li></ul></div>
-    </div>
-</section>
+<section class="landing-hero" aria-labelledby="hero-title">
+<div class="hero-topline"><span><i class="status-dot"></i> A LITTLE ORDER. A LOT OF POSSIBILITY.</span><span>YOUR EVERYDAY STORE COMPANION</span></div>
+<div class="hero-grid"><div class="hero-copy"><h1 id="hero-title">Small store.<br>Big <em>possibilities.</em></h1><p>Keep your products, people, and sales in sync. Make room for what you do best: running your business.</p>
+@auth
+<a class="button accent-button" href="{{ auth()->user()->isActiveStaff() ? route('dashboard') : route('account') }}">Open {{ auth()->user()->isActiveStaff() ? 'dashboard' : 'my account' }} &nearr;</a>
+@else
+<div class="hero-actions"><a class="button accent-button" href="{{ route('register') }}">Let's get started <span aria-hidden="true">&nearr;</span></a><a class="text-link" href="{{ route('about') }}">See how it works</a></div>
+@endauth
+<div class="hero-footnote"><span class="tiny-square"></span> Less busywork. More business.</div></div>
+<div class="store-stage" aria-label="Illustrative interface preview with sample data"><span class="stage-label">A GOOD DAY AT THE STORE.</span><div class="preview-window"><div class="preview-bar"><strong>tams<span>.</span></strong><span>YOUR STORE, AT A GLANCE</span><i></i></div><div class="preview-content"><div class="preview-greeting"><span>Good morning, team.</span><small>LET'S MAKE IT A GOOD ONE &nearr;</small></div><div class="preview-stats"><div><small>TODAY'S SALES</small><strong>&#8369; 4,850<span>.00</span></strong><span>12 sales recorded</span></div><div><small>PRODUCTS IN STOCK</small><strong>128</strong><span>Ready for the next sale</span></div></div><div class="preview-table-heading"><strong>On the shelves</strong><span>Inventory &nearr;</span></div><div class="preview-product"><span class="product-swatch swatch-book">01</span><div><strong>Everyday notebook</strong><small>Stationery</small></div><span>24 in stock</span><b>&#8369; 85.00</b></div><div class="preview-product"><span class="product-swatch swatch-pen">02</span><div><strong>Classic gel pen</strong><small>Writing essentials</small></div><span>40 in stock</span><b>&#8369; 25.50</b></div><div class="preview-product"><span class="product-swatch swatch-desk">03</span><div><strong>Desk organizer</strong><small>Desk essentials</small></div><span>5 in stock</span><b>&#8369; 199.00</b></div></div></div><div class="sale-note"><span class="sale-check" aria-hidden="true">&#10003;</span><div><strong>Another sale. All sorted.</strong><small>Stock updated automatically.</small></div><span aria-hidden="true">&nearr;</span></div><span class="stage-caption">INTERFACE PREVIEW / SAMPLE DATA</span></div></div>
+<div class="hero-bottom"><span>ONE PLACE FOR YOUR EVERYDAY OPERATIONS</span><a href="#features">Take a look around <span aria-hidden="true">&darr;</span></a></div></section>
+<section class="features-section" id="features" aria-labelledby="features-title"><div class="editorial-heading"><p class="eyebrow"><span class="tiny-square"></span> THE EVERYDAY, SIMPLIFIED</p><h2 id="features-title">Everything in order.<br>Nothing in your way.</h2><p>From the first item on your shelf to the last sale of the day. A simpler way to keep things moving.</p></div><div class="feature-rows">
+<article><span class="feature-number">01</span><div><h3>A place for every product.</h3><p>Keep prices, product images, and stock levels together. Know what's available before the next sale.</p><span class="feature-tags">PRODUCTS &nbsp; / &nbsp; INVENTORY</span></div><span class="feature-arrow" aria-hidden="true">&nearr;</span></article>
+<article><span class="feature-number">02</span><div><h3>Good people. Better records.</h3><p>Organize customer details, connect purchases to user accounts, and give approved staff access to your store.</p><span class="feature-tags">CUSTOMERS &nbsp; / &nbsp; STAFF</span></div><span class="feature-arrow" aria-hidden="true">&nearr;</span></article>
+<article><span class="feature-number">03</span><div><h3>Make the sale. We'll do the math.</h3><p>Record a transaction with automatic totals and stock updates. Keep a clear history of every recorded sale.</p><span class="feature-tags">SALES &nbsp; / &nbsp; HISTORY</span></div><span class="feature-arrow" aria-hidden="true">&nearr;</span></article></div></section>
+<section class="access-section" aria-labelledby="access-title"><div class="section-heading"><div><p class="eyebrow"><span class="tiny-square"></span> FIND YOUR WAY IN</p><h2 id="access-title">One store. Your own space.</h2></div><span class="section-aside">The right access for the way you work.</span></div>
+<div class="access-row"><span class="row-number">01 / USER</span><div><h3>Here to browse?</h3><p>Explore available products and keep track of purchases recorded under your account.</p></div><div class="access-links"><a class="button secondary" href="{{ route('login') }}">User sign in &nearr;</a><a class="text-link" href="{{ route('register') }}">Create user account</a></div></div>
+<div class="access-row"><span class="row-number">02 / STAFF</span><div><h3>Part of the team?</h3><p>Manage the shelves, look after customers, and record sales. New staff accounts need approval.</p></div><div class="access-links"><a class="button secondary" href="{{ route('staff.login') }}">Staff sign in &nearr;</a><a class="text-link" href="{{ route('staff.register') }}">Create staff account</a></div></div></section>
+<section class="faq-section" aria-labelledby="faq-title"><div><p class="eyebrow"><span class="tiny-square"></span> GOOD QUESTIONS</p><h2 id="faq-title">A little clarity<br> before you start.</h2><a class="text-link" href="{{ route('about') }}">Explore the full guide &nearr;</a></div><div class="faq-list"><details><summary>Which account is right for me?</summary><p>Choose a user account to browse products and view your own purchases. Choose a staff account if you help manage the store, inventory, or sales.</p></details><details><summary>Can I start using a staff account immediately?</summary><p>New staff registrations need approval from an existing approved staff member. You can sign in to check your account status while you wait.</p></details><details><summary>What happens when a sale is recorded?</summary><p>The system calculates the total and deducts the quantity from available stock. It checks stock first, so you cannot record a sale for more than is available.</p></details><details><summary>Where can I see my purchases?</summary><p>Sign in and open My account. Purchases recorded by staff against your linked customer record appear in your purchase history.</p></details></div></section>
+<section class="closing-cta"><p class="eyebrow">LESS TO JUGGLE. MORE TO LOOK FORWARD TO.</p><h2>Your next good day<br>starts here<span>.</span></h2>@auth<a class="button" href="{{ auth()->user()->isActiveStaff() ? route('dashboard') : route('account') }}">Back to your store &nearr;</a>@else<a class="button" href="{{ route('register') }}">Make yourself an account &nearr;</a>@endauth<span class="cta-corner" aria-hidden="true">&nearr;</span></section>
 @endsection
