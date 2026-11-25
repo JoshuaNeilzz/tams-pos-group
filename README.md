@@ -1,22 +1,68 @@
-# TAMS POS — CipherStack
+# TAMS POS - CipherStack
 
 ## Live website
 
-**[Open TAMS POS](https://tams-pos-group.vercel.app)** — view the deployed website directly in your browser. No installation or XAMPP is needed.
+**[Open TAMS POS](https://tams-pos-group.vercel.app)**. No XAMPP or installation is needed to open the hosted site.
 
 **Team:** Joshua Neil Biglete, Leah Buenaventura, Gabrielle Crisostomo, and Kurt Airry Wenceslao.
 
-The setup instructions below are only for groupmates or evaluators who want to run their own local copy. `localhost` and `127.0.0.1` refer to that person's computer, not the live website.
+TAMS POS is an IT0049 Web System Technologies classroom project: a **sari-sari store selling Philippine packaged snacks**, built with Laravel 12, Blade, PHP, and a relational database. Nova, Piattos, V-Cut, Chippy, Oishi, and Boy Bawang are the illustrative sample lineup. Staff can add other foods/snacks. All sample prices are classroom values, not advertised manufacturer prices. Product names belong to their respective brands; the packet sketches are original SVG illustrations, not official product photos or packaging.
 
-IT0049 Web System Technologies group project. TAMS POS manages products, customers, staff, and sales using Laravel 12, Blade, PHP, and MySQL/MariaDB.
+The checked-in repository documentation previously described a generic inventory system and imposed no product-category restriction. The original assignment brief is not included here, so category restrictions in that external document cannot be independently confirmed from this repository.
 
-The application has separate user and staff registration/sign-in screens. The public home page explains both account types, and the **How it works** page describes the workflow for an evaluator.
+## Which account should I use?
+
+**Hosted setup status: pending database provisioning/verification for this revision.** The old live site did not contain the local demo accounts, which is why the credentials failed there. Do not assume a locally seeded account also exists on Vercel. The snack-order revision must be migrated and deployed before its buying/restocking features are live.
+
+| Account | Sign-in page | Username | Password | Purpose |
+| --- | --- | --- | --- | --- |
+| Evaluation staff | [Staff sign in](https://tams-pos-group.vercel.app/staff/login) | `demo_staff` | `DemoStaff123!` | Add snacks and stock, record counter sales, complete pickup orders, manage customers/staff |
+| Evaluation shopper | [User sign in](https://tams-pos-group.vercel.app/login) | `demo_user` | `DemoUser123!` | Buy/reserve snacks, cancel own pending orders, view own completed purchases |
+
+These are **shared classroom evaluation credentials**, created only by the explicit setup command below. They work locally after setup. They must be separately provisioned and verified in the hosted database before use on the live site. Use fictional data only. Shared staff access can modify the evaluation store; it must never be enabled on a store holding real customer information or real business data.
+
+You can also [register your own shopper account](https://tams-pos-group.vercel.app/register). A [new staff registration](https://tams-pos-group.vercel.app/staff/register) needs approval by an existing active staff member; it does not immediately grant stock-management access.
+
+## Buy snacks (shopper)
+
+1. Sign in through **User sign in**, then open **My account**.
+2. Go to **Product catalog**, choose the number of packs, and select **Buy / reserve**.
+3. The order appears in **My pickup orders**. Available stock decreases immediately to reserve your packs. The server uses the stored price, not a price submitted by the browser.
+4. Pay **cash at the store when collecting**. This app does not collect card details or process online payments. A reservation is not a paid sale.
+5. Staff confirms **Paid & collected**. The order then appears in Purchase history and Sales history. Stock is not deducted a second time.
+6. Before completion, you can cancel your own order. Reserved packs are returned once, even if the cancel button is submitted twice.
+
+The account catalog is no longer view-only. A shopper cannot restock, manage staff, or access someone else's orders.
+
+## Add stock and sell (approved staff)
+
+1. Sign in through **Staff sign in**. Open **Snacks & stock**.
+2. Use **Add snack** for a new product. Enter the selling price per pack and initial available quantity. A photo upload is optional; a packet sketch is used when there is no photo.
+3. For a delivery, expand **+ Add stock** on the relevant snack card. Enter the **new packs received**, not the final total. An optional delivery note is saved with the staff member, quantity received, and resulting available balance in `stock_movements`.
+4. Use **Edit** for a price change or stock-count correction. A stale form is rejected if stock changed while the page was open; reload before correcting stock.
+5. For a walk-in purchase, use **Sales > Record sale** or the card's **Sell** link. Choose a snack, optional customer, and quantity. Confirm after collecting payment. Total and stock update together. Selecting a registered shopper's linked customer makes the counter sale visible in their Purchase history.
+6. For an existing pickup order, use **Orders > Paid & collected**, not Record sale. This avoids creating a second sale. Cancel a pending no-show order to release its reserved stock.
+
+All stock figures mean **available packs**, excluding pending pickup reservations. Completed sales, historical names, and receipts survive later product archiving. Stock and totals are validated server-side. Overselling, negative quantities, excessive totals, and repeat checkout submissions are rejected or safely reused without double deduction.
+
+## Sample snack catalog
+
+| Snack | Sample price / pack | Starting packs |
+| --- | --- | --- |
+| Nova Multigrain Chips | PHP 18.00 | 30 |
+| Piattos Cheese | PHP 22.00 | 30 |
+| V-Cut Potato Chips | PHP 25.00 | 24 |
+| Chippy Barbecue | PHP 12.00 | 40 |
+| Oishi Prawn Crackers | PHP 10.00 | 40 |
+| Boy Bawang Cornick | PHP 15.00 | 36 |
+
+Setup adds missing sample products; rerunning it does not reset prices, replenish stock, restore archived snacks, or erase transactions. Packet art is in `public/images/snacks/`; the editable drawing source is `scripts/draw-snacks.cjs` (run `node scripts/draw-snacks.cjs` to redraw it). It uses editable SVG paths, hatching, and lettering; no image-generation service is used. Uploaded product photos take precedence over the sketches.
 
 ## Local development setup
 
-Requirements: PHP 8.2+ with PDO MySQL, GD with WebP, fileinfo, mbstring, XML, and Laravel's standard extensions; Composer; and MySQL/MariaDB. XAMPP provides PHP, Apache, and MariaDB on Windows.
+`localhost` / `127.0.0.1` refer to your own computer, not the hosted site. These steps are only for running a separate local copy.
 
-From a fresh clone:
+Requirements: PHP 8.2+ with PDO MySQL (or PDO SQLite for evaluation), GD/WebP, fileinfo, mbstring, XML, and Laravel's standard extensions; Composer; and MySQL/MariaDB when using XAMPP. No Node build is required for the committed CSS, native JavaScript, and system fonts.
 
 ```sh
 composer install
@@ -24,159 +70,74 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp` if preferred. Create an empty MySQL database named `tams_market`, then set `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` in `.env` to match your installation. Start MySQL in XAMPP.
+In PowerShell, use `Copy-Item .env.example .env`. Create an empty MySQL database named `tams_market` and set the database values in your local `.env`. Start MySQL in XAMPP.
 
 ```sh
 php artisan migrate --force
-php artisan db:seed
-php artisan db:seed --class=DemoSeeder
+php artisan pos:prepare-evaluation
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-For your local copy only, open **http://127.0.0.1:8000** while the development server is running. To view the hosted website, use **https://tams-pos-group.vercel.app**. No Node build is required: the interface uses the committed styles in `public/css/`, native JavaScript, and system fonts.
+Open **http://127.0.0.1:8000** for your local copy. The evaluation account table above now applies to this local database. `php artisan db:seed --class=DemoSeeder` is an alternative local-only sample setup. The default `DatabaseSeeder` still creates a first private approved staff account with a generated password when no approved staff exists; it is separate from the named demo accounts.
 
-`DatabaseSeeder` creates the first approved staff account and prints its generated password. It preserves existing approved staff accounts. `DemoSeeder` adds the optional evaluation accounts and sample products below; it does not reset existing passwords or stock. It refuses to run in production.
-
-### Local evaluation accounts
-
-| Account | Sign-in page | Username | Password | Access |
-| --- | --- | --- | --- | --- |
-| Demo staff | `/staff/login` | `demo_staff` | `DemoStaff123!` | Products, customers, staff, sales, dashboard |
-| Demo user | `/login` | `demo_user` | `DemoUser123!` | Product catalog and own purchase history |
-
-These credentials are only for the optional local demo dataset. They are not production credentials. The generic demo products are Notebook (PHP 85.00, 20 units), Gel Pen (PHP 25.50, 40 units), and Desk Organizer (PHP 199.00, 5 units).
-
-## Suggested demonstration
-
-1. Open Home. Use the **User account** and **Staff account** sections to see the distinct registration and sign-in links.
-2. Sign in as `demo_staff` through **Staff sign in**. Review Dashboard, Products, Customers, Staff, and Sales.
-3. In Products, add a product, upload a JPG/PNG/WebP image, edit its price or stock, and archive an unused product. Uploaded product images are prepared as 640 × 640 WebP images.
-4. In Customers, add, view, edit, and delete a sample customer. The **Demo User** customer is linked to the demo user's account.
-5. In Sales, choose **Record sale**. Select Gel Pen, choose Demo User as the customer, and enter 2 units. On a fresh demo dataset the total is PHP 51.00 and stock changes from 40 to 38.
-6. Attempt to sell more units than are available. The form and server reject it, and stock and history stay unchanged. Also try a walk-in sale without selecting a customer.
-7. Review Sales history. It shows product, customer or walk-in, staff, quantity, total, and date.
-8. Sign out. Sign in as `demo_user` through **User sign in**. My account shows the sale linked to Demo User and the product catalog. Opening `/dashboard`, `/products`, `/customers`, `/users`, or `/sales` as this user returns 403.
-9. Sign out and select **Create user account**. Registration creates a user account and a new linked customer record. It immediately opens My account. Record future sales against that linked customer to populate the user's history.
-10. Sign out and select **Create staff account**. Register with a unique username and email, confirmed password, and optional avatar. The new account shows **Staff approval pending** and has no management access.
-11. Sign out, sign in as `demo_staff`, open Staff, and select **Approve** on the pending registration. The approved staff account can now sign in through Staff sign in and use the management modules.
-12. In Staff, demonstrate adding a staff member directly, viewing/editing the profile, changing a password, uploading an avatar, and removing another staff member. Avatars are prepared as 256 × 256 WebP images. A staff member cannot remove their own signed-in account.
-
-## Account types and permissions
-
-| Capability | Guest | User | Pending staff | Approved staff |
-| --- | --- | --- | --- | --- |
-| Read Home and How it works | Yes | Yes | Yes | Yes |
-| Register user or staff account | Yes | Sign out first | Sign out first | Sign out first |
-| View own account | No | Yes | Yes | Yes |
-| Browse account product catalog | No | Yes | No | Staff product module |
-| View own purchases | No | Yes | No | Staff sales module |
-| Manage products/customers/staff | No | No | No | Yes |
-| Approve staff registration | No | No | No | Yes |
-| Record sales and view all history | No | No | No | Yes |
-
-A user is a customer-facing login. A customer is a contact record used by sales; walk-in/directory-only customers do not need a login. User registration creates its own linked customer record rather than claiming an existing record by email. Purchase access uses the stored customer ID and cannot be changed through query parameters.
-
-Public staff registration always creates a **pending** account. Existing approved staff must approve it. The request cannot choose its own role, approval status, or customer link. Staff accounts created directly inside Staff are immediately active. On a fresh installation, `php artisan db:seed` provides the initial approved staff account so the group can approve subsequent requests.
-
-All approved staff have the same management permissions required by the assignment; this project does not define an additional administrator role.
-
-## Assignment coverage
-
-| Requirement | Implementation |
-| --- | --- |
-| Product CRUD or archive, prepared image | Products: create/list/edit/archive; image validation and 640 × 640 WebP preparation |
-| Customer CRUD | Customers: create/list/view/edit/delete |
-| Staff CRUD, avatar, hashed password | Staff: create/list/view/edit/remove; 256 × 256 avatar preparation; Laravel hashed password cast |
-| Authenticated staff management | `auth` and `staff` middleware on every management route |
-| Record sale and update inventory | Server-calculated total; product row lock, sale creation, and stock decrement in one database transaction |
-| Reject quantity above available stock | Explicit validation message; no sale or stock mutation on rejection |
-| Sales history | Product/customer/staff name snapshots, quantity, total, and timestamp |
-| Reproducible database and setup | Committed migrations, initial staff seeder, optional generic demo seeder, and this README |
-
-The assignment document names CodeIgniter. This project retains Laravel with the project owner's confirmation that Laravel is permitted. It follows Laravel MVC conventions.
-
-## Routes
-
-| Route | Purpose |
-| --- | --- |
-| `/` | Account choices and project overview |
-| `/about` | In-application system guide |
-| `/register` | User registration |
-| `/login` | User sign-in form |
-| `/staff/register` | Staff registration request |
-| `/staff/login` | Staff sign-in form |
-| `/account` | Own profile, user catalog/history, or pending-staff status |
-| `/dashboard` | Approved staff overview |
-| `/products` | Staff inventory management |
-| `/customers` | Staff customer management |
-| `/users` | Staff management and approval |
-| `/sales/create` | Record sale |
-| `/sales` | All sales history |
-
-Both login forms submit to the same throttled authentication endpoint with their account type. Successful user and pending-staff sign-ins go to `/account`; approved staff sign-ins go to `/dashboard` or a previously requested staff page.
-
-## Database and integrity
-
-- `users`: username, full name, optional unique email, hashed password, avatar, role, status, optional customer reference, created date, remember token, and soft-delete date.
-- `customers`: full name, email, phone, and created date. User accounts link to their customer record through `users.customer_id`.
-- `products`: name, DECIMAL(10,2) price, unsigned stock quantity, optional image, created date, and soft-delete date.
-- `sales`: product, optional customer, selling staff, quantity, DECIMAL(10,2) total, created date, and historical product/customer/staff name snapshots.
-
-Product stock is checked with `lockForUpdate()` inside a database transaction. Sale creation and stock decrement succeed together. The server ignores submitted price/staff fields and calculates the persisted amount in integer cents from the current product price and authenticated staff ID. MySQL/MariaDB supplies the production row locks.
-
-Products and staff are archived through soft deletion, preserving referenced sales. Deleting a customer clears the foreign keys while retaining its name on past sales. This also disconnects that customer's user account from past purchases; staff should edit a registered customer's contact record rather than delete it when retaining portal history is needed. Sales cannot be edited or deleted through the interface.
-
-The original Laravel cache/job tables and legacy `login_accounts` table remain for compatibility. `login_accounts` is no longer used for authentication. Migrations reproduce the schema; a separate SQL dump containing personal records is not required for submission.
-
-## Uploads and authentication
-
-Only JPG, PNG, and WebP uploads up to 2 MB and 6000 × 6000 pixels are accepted. GD decodes and re-encodes them using random UUID filenames. Replaced images are removed after saving the new path. Files are stored under `storage/app/public/products` or `storage/app/public/avatars` and served through the authenticated `/media/{folder}/{file}` route. This works on Windows without a symlink and supports existing legacy files in `public/storage`.
-
-The application uses CSRF protection, login throttling, session regeneration, password hashing, role checks, server-side validation, and scoped user purchase queries. Every management endpoint requires an active staff account, including write and approval actions. Dates use Asia/Manila and amounts use Philippine pesos.
-
-## Upgrading an existing installation
-
-Back up the database, keep the existing `.env` and `APP_KEY`, then run:
+For an existing local database whose demo passwords were changed, explicitly run:
 
 ```sh
-composer install
-php artisan migrate --force
-php artisan view:clear
+php artisan pos:prepare-evaluation --reset-passwords --archive-stationery
 ```
 
-The migrations preserve existing records. The first POS migration copied existing legacy email/password credentials into staff records. The account-role migration marks existing accounts as approved staff; new public user registrations receive the user role, and new public staff registrations remain pending. Existing passwords are not reset.
+This resets only `demo_staff` and `demo_user`, invalidates their existing sessions, adds missing snacks, and soft-archives the three former sample stationery products (Notebook, Gel Pen, Desk Organizer). It preserves other accounts, sales, and existing snack prices/quantities. Omit the optional flags to preserve passwords and old sample products.
 
-Backups on the development machine are stored privately in `storage/app/backups` and excluded by the storage ignore rules. Do not add personal database exports, real uploaded avatars, or `.env` to GitHub.
+## Hosted evaluation setup (maintainer only)
 
-## Tests
+See [deploy/README.md](deploy/README.md) for the Vercel PHP container and persistent database setup. Never commit production database credentials, application keys, or downloaded environment files.
+
+1. Use the existing Vercel project `tams-pos-group` and its dedicated hosted database.
+2. Run `php artisan migrate --force` against that hosted database from an authorized maintenance environment. No fresh/reset migration is needed. The new migration adds `orders` and `stock_movements` without deleting existing data.
+3. For this **classroom demonstration only**, set `POS_EVALUATION_MODE=true` in production. Then explicitly run `php artisan pos:prepare-evaluation --reset-passwords --archive-stationery` against the hosted database. The command refuses shared accounts in production unless this flag is enabled. It does not run during normal page requests or cold starts.
+4. Deploy the revision, test both named accounts through their correct sign-in forms, and verify restock -> customer reservation -> staff completion -> purchase history. Update the hosted setup status above only after those checks pass.
+5. Keep shared evaluation data fictional. For real deployment, disable evaluation mode and remove/disable the shared accounts; create private staff credentials instead.
+
+## Account permissions
+
+| Capability | Guest | Shopper | Pending staff | Approved staff |
+| --- | --- | --- | --- | --- |
+| Read Home / How it works | Yes | Yes | Yes | Yes |
+| Register | Yes | Sign out first | Sign out first | Sign out first |
+| View own account | No | Yes | Yes | Yes |
+| Buy/reserve snacks | No | Yes | No | No (use counter sales) |
+| Cancel own pending order | No | Yes | No | Any pending order |
+| View own purchase history | No | Yes | No | All sales through staff module |
+| Add/edit/archive snacks and restock | No | No | No | Yes |
+| View/complete all pickup orders | No | No | No | Yes |
+| Manage customers/staff and approve requests | No | No | No | Yes |
+| Record counter sales / see all sales | No | No | No | Yes |
+
+User registration creates its own linked customer record rather than claiming a record by email. Purchase history is scoped to that stored customer ID; pickup orders are scoped to the authenticated user ID. Request-supplied user, customer, price, staff, and status values cannot override these rules. Approved staff share the management permissions; there is no separate administrator role. A staff member cannot remove their own signed-in account.
+
+## Routes and database
+
+- `/`, `/about`: public overview, snack lineup, workflow, and CipherStack team.
+- `/login`, `/register`: shopper access. `/staff/login`, `/staff/register`: staff access/request.
+- `/account`: shopper catalog, own pickup orders, own purchases, or pending staff status.
+- `/dashboard`, `/products`, `/customers`, `/users`, `/sales`: approved-staff management.
+- `POST /products/{product}/restock`: approved-staff stock delivery.
+- `POST /orders`: active shopper reserves packs; UUID request key prevents duplicate checkout.
+- `GET /orders`, `PATCH /orders/{order}/complete`: approved-staff order management.
+- `PATCH /orders/{order}/cancel`: the owning shopper or approved staff only.
+
+Core tables are `users`, `customers`, `products`, and `sales`. New `orders` stores the reservation, locked unit price/total, customer/product snapshots, status, and linked completed sale; `stock_movements` records deliveries. Product/staff soft deletion preserves references. Customer deletion clears optional references but retains snapshot names; edit registered customers instead of deleting them when portal history must be retained. MySQL/MariaDB and hosted PostgreSQL support row-level transaction locks. SQLite supports local testing.
+
+Only JPG/PNG/WebP uploads up to 2 MB and 6000 x 6000 pixels are accepted. Uploaded product images become 640 x 640 WebP; avatars become 256 x 256 WebP. The host stores prepared uploads in the database. Local installs default to file storage. Uploaded media is authenticated. The bundled SVG sketches are public assets and are not accepted as uploads.
+
+The original cache/job and legacy `login_accounts` tables remain for compatibility; the latter is not used to sign in. Authentication includes CSRF protection, login throttling, regenerated sessions, hashed passwords, and role checks. Dates use Asia/Manila; amounts use Philippine pesos.
+
+## Verification
 
 ```sh
 php artisan test
-php artisan view:cache
-php artisan route:list --except-vendor
 ```
 
-Tests use an isolated SQLite database and cover user/staff registration, role-forgery rejection, staff approval, customer history isolation, account-type sign-in, protected pages, CRUD, image preparation, password hashing, sale pricing, walk-ins, inventory updates, overselling rejection, and historical record preservation. Database migrations and local sale operations have also been checked against MariaDB. SQLite tests do not claim to reproduce MySQL row-lock concurrency behavior.
+Coverage includes account separation/approval, customer and staff CRUD, prepared images and hosted media, server-priced counter sales, stock limits, checkout retries, reservation/cancellation/completion, order ownership, restock receipts, stale edit protection, and guarded evaluation setup. Before submitting the hosted URL, also perform the real-browser scenario described above against the hosted database; passing local tests alone does not provision live accounts.
 
-## GitHub and deployment
-
-For the Vercel container configuration and hosted persistence setup, see [deploy/README.md](deploy/README.md). The hosting setup uses a separate cloud database; local XAMPP credentials and data are not published.
-
-Commit application code, public CSS, migrations, seeders, tests, `composer.json`, `composer.lock`, `.env.example`, and this README. Exclude `.env`, vendor, node_modules, runtime caches, backups, and real uploaded personal files. Generic optional demo credentials are intentionally documented for local evaluation.
-
-Use a PHP host with MySQL/MariaDB, Composer, HTTPS, and GD/WebP support. The web document root must point to `public`; `storage` and `bootstrap/cache` need write access. Run `composer install --no-dev --optimize-autoloader`, configure `APP_ENV=production`, `APP_DEBUG=false`, `APP_URL`, `APP_KEY`, database access, and secure cookies, then run migrations, the primary initial-account seeder, `php artisan config:cache`, and `php artisan view:cache`. Do not run DemoSeeder on a public production deployment.
-
-For XAMPP development, `http://localhost/final-pos/public/` reaches this project's entry point. A virtual host pointing to `public` is preferable to exposing the repository root.
-
-Group repository: https://github.com/JoshuaNeilzz/tams-pos-group. See [CONTRIBUTING.md](CONTRIBUTING.md) for joining the repository, creating branches, submitting pull requests, and keeping local databases in sync through migrations. A live PHP/MySQL deployment is separate; submit its URL alongside the repository URL when hosting is complete.
-
-## Visual assets
-
-The home and sign-in pages use `public/images/checkout-hero.png`, a project-local retail photograph created using the built-in Imagegen tool. It is decorative and does not show live inventory or actual store data. The image is committed with the source; no external image service is required. The interface retains its light/dark switch with a muted yellow accent in both themes.
-
-<details>
-<summary>Image generation prompt</summary>
-
-Create a single editorial product photograph for the hero of a student point-of-sale and inventory web application. Landscape 4:3 composition. A thoughtfully arranged small stationery store checkout counter: compact off-white point-of-sale payment terminal with a dark unmarked screen, kraft paper shopping bag with simple folded handles, a warm ivory spiral notebook, one black pen, small stacks of cream and muted sage stationery boxes, a paper receipt showing ONLY indistinct gray lines (no readable text). Warm muted butter yellow background and surface, slightly different tones separated by a soft horizon, natural window light from upper left and realistic soft shadows. Camera three-quarter angle, close but breathable composition. Tactile real paper, matte plastics. Minimal attractive commercial still-life photography, grounded and plausible, mature editorial art direction. No people, no hands, no brands, no logos, no visible words, no typography, no decorative floating objects, no interface mockup, no gradients added graphically. The terminal and shopping bag are recognizable focal subjects. Rich warm restrained colors, image should also look attractive beside a dark charcoal website. Save a finished raster image suitable for a website.
-
-</details>
+The project retains Laravel rather than the assignment's named CodeIgniter framework, based on the owner's earlier confirmation that Laravel is permitted. The repository follows Laravel MVC conventions. Group collaboration instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).

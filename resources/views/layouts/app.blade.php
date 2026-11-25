@@ -6,7 +6,7 @@
     <title>{{ $title ?? 'Home' }} | TAMS POS</title>
     <script>try { document.documentElement.dataset.theme = localStorage.getItem('tams-theme') || 'light'; } catch (e) {}</script>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v=7">
-    <link rel="stylesheet" href="{{ asset('css/design.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('css/design.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/motion.css') }}?v=1">
 </head>
 <body>
@@ -16,7 +16,7 @@
     <nav aria-label="Main navigation">
         @auth
             @if(auth()->user()->isActiveStaff())
-                @foreach (['dashboard' => 'Dashboard', 'products.index' => 'Products', 'customers.index' => 'Customers', 'users.index' => 'Staff', 'sales.index' => 'Sales'] as $route => $label)
+                @foreach (['dashboard' => 'Dashboard', 'products.index' => 'Snacks & stock', 'customers.index' => 'Customers', 'users.index' => 'Staff', 'sales.index' => 'Sales', 'orders.index' => 'Orders'] as $route => $label)
                     <a href="{{ route($route) }}" class="{{ request()->routeIs(explode('.', $route)[0].'*') ? 'active' : '' }}">{{ $label }}</a>
                 @endforeach
             @else

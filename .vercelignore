@@ -11,3 +11,5 @@ bootstrap/cache/*.php
 bootstrap/cache/*.json
 .phpunit.result.cache
 *.log
+
+.vercel

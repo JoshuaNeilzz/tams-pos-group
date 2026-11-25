@@ -2,7 +2,7 @@
 @section('content')
 @php($isStaff = $accountType === 'staff')
 <div class="auth-layout">
-    <section class="auth-description"><p class="eyebrow">TAMS POS / REGISTRATION</p><h1>Create {{ $isStaff ? 'staff' : 'user' }} account</h1><p>{{ $isStaff ? 'Submit your staff profile. An approved staff member must approve your account before you can use management pages.' : 'Register to browse products and view purchases recorded under your customer account.' }}</p><a class="text-link" href="{{ $isStaff ? route('register') : route('staff.register') }}">{{ $isStaff ? 'Create a user account instead' : 'Need a staff account?' }} ↗</a></section>
+    <section class="auth-description"><p class="eyebrow">TAMS POS / REGISTRATION</p><h1>Create {{ $isStaff ? 'staff' : 'user' }} account</h1><p>{{ $isStaff ? 'Submit your staff profile. An approved staff member must approve your account before you can use management pages.' : 'Register to buy and reserve snacks for cash-on-pickup and track your own orders and purchases.' }}</p><a class="text-link" href="{{ $isStaff ? route('register') : route('staff.register') }}">{{ $isStaff ? 'Create a user account instead' : 'Need a staff account?' }} ↗</a></section>
     <section class="auth-form"><h2>{{ $isStaff ? 'Staff registration' : 'User registration' }}</h2>
         <form method="POST" action="{{ $isStaff ? route('staff.register') : route('register') }}" enctype="multipart/form-data">@csrf
             <label for="full_name">Full name</label><input id="full_name" name="full_name" value="{{ old('full_name') }}" maxlength="100" required autocomplete="name">
