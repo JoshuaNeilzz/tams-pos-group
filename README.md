@@ -1,10 +1,18 @@
-﻿# TAMS POS
+# TAMS POS — CipherStack
+
+## Live website
+
+**[Open TAMS POS](https://tams-pos-group.vercel.app)** — view the deployed website directly in your browser. No installation or XAMPP is needed.
+
+**Team:** Joshua Neil Biglete, Leah Buenaventura, Gabrielle Crisostomo, and Kurt Airry Wenceslao.
+
+The setup instructions below are only for groupmates or evaluators who want to run their own local copy. `localhost` and `127.0.0.1` refer to that person's computer, not the live website.
 
 IT0049 Web System Technologies group project. TAMS POS manages products, customers, staff, and sales using Laravel 12, Blade, PHP, and MySQL/MariaDB.
 
 The application has separate user and staff registration/sign-in screens. The public home page explains both account types, and the **How it works** page describes the workflow for an evaluator.
 
-## Quick start for the evaluator
+## Local development setup
 
 Requirements: PHP 8.2+ with PDO MySQL, GD with WebP, fileinfo, mbstring, XML, and Laravel's standard extensions; Composer; and MySQL/MariaDB. XAMPP provides PHP, Apache, and MariaDB on Windows.
 
@@ -25,7 +33,7 @@ php artisan db:seed --class=DemoSeeder
 php artisan serve --host=127.0.0.1 --port=8000
 ```
 
-Open **http://127.0.0.1:8000**. No Node build is required: the interface uses the committed `public/css/app.css`, native JavaScript, and system fonts.
+For your local copy only, open **http://127.0.0.1:8000** while the development server is running. To view the hosted website, use **https://tams-pos-group.vercel.app**. No Node build is required: the interface uses the committed styles in `public/css/`, native JavaScript, and system fonts.
 
 `DatabaseSeeder` creates the first approved staff account and prints its generated password. It preserves existing approved staff accounts. `DemoSeeder` adds the optional evaluation accounts and sample products below; it does not reset existing passwords or stock. It refuses to run in production.
 
