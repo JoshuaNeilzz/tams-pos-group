@@ -4,7 +4,7 @@
 
 **[Open TAMS POS](https://tams-pos-group.vercel.app)**. No XAMPP or installation is needed to open the hosted site.
 
-**Team:** Joshua Neil Biglete, Leah Buenaventura, Gabrielle Crisostomo, and Kurt Airry Wenceslao.
+**Team:** Joshua Neil Biglete, Leah Buenaventura, Troy Furing, and Kurt Airry Wenceslao.
 
 TAMS POS is an IT0049 Web System Technologies classroom project: a **sari-sari store selling Philippine packaged snacks**, built with Laravel 12, Blade, PHP, and a relational database. Nova, Piattos, V-Cut, Chippy, Oishi, and Boy Bawang are the illustrative sample lineup. Staff can add other foods/snacks. All sample prices are classroom values, not advertised manufacturer prices. Product names belong to their respective brands; the packet sketches are original SVG illustrations, not official product photos or packaging.
 

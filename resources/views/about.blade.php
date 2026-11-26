@@ -16,7 +16,7 @@
     <ul class="team-members" aria-label="CipherStack team members">
         <li><span aria-hidden="true">01</span>Joshua Neil Biglete</li>
         <li><span aria-hidden="true">02</span>Leah Buenaventura</li>
-        <li><span aria-hidden="true">03</span>Gabrielle Crisostomo</li>
+        <li><span aria-hidden="true">03</span>Troy Furing</li>
         <li><span aria-hidden="true">04</span>Kurt Airry Wenceslao</li>
     </ul>
 </section>
